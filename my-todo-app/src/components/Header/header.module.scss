@@ -1,0 +1,30 @@
+.todo__header {
+  padding: 16px 24px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  form {
+    width: 100%;
+  }
+}
+
+.todo__toggle {
+  position: relative;
+
+  &:before {
+    position: absolute;
+    content: ">";
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: transparent;
+  }
+}
+
+.todo__input {
+  outline: none;
+  border: none;
+  line-height: 1.4;
+}
