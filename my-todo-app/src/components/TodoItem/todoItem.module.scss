@@ -1,0 +1,63 @@
+.todo {
+
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+    cursor: pointer;
+    padding: 16px 10px;
+    gap: 10px;
+
+    &:hover {
+      .todo__item-delete {
+        opacity: 1;
+      }
+    }
+  }
+
+  &__label {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    &:before {
+      position: absolute;
+      content: "";
+      inset: 0;
+      border-radius: 50%;
+      background: transparent;
+      border: 1px solid black;
+    }
+  }
+
+  &__item-delete {
+    opacity: 0;
+    transition: opacity .3s ease;
+    margin-left: auto;
+
+    svg {
+      transition: .3s ease;
+    }
+
+    &:hover {
+      svg {
+        color: red;
+      }
+    }
+  }
+
+  &__item-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: opacity .3s ease;
+    opacity: 0;
+  }
+}
+

@@ -1,6 +1,5 @@
 .todo__header {
-  padding: 16px 24px;
-  width: 100%;
+  padding: 16px 24px 16px 0;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -12,15 +11,7 @@
 
 .todo__toggle {
   position: relative;
-
-  &:before {
-    position: absolute;
-    content: ">";
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: transparent;
-  }
+  padding: 0 10px;
 }
 
 .todo__input {

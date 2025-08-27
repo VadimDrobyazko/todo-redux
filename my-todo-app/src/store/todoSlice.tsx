@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 
-interface Todo {
+export interface Todo {
   id: number;
   text: string;
   completed: boolean;

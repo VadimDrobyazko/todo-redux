@@ -32,9 +32,7 @@ body {
 }
 
 .todo__app {
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  flex-direction: column;
+  display: block;
+  width: 100%;
   box-shadow: 0 2px 4px 0 #0003,0 25px 50px 0 #0000001a;
 }
