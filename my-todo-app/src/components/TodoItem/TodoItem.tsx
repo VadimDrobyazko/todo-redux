@@ -1,50 +1,39 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './TodoItem.module.scss';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDeleteLeft, faSpinner, faCheck } from "@fortawesome/free-solid-svg-icons";
 import {
-  removeTodo,
   type Todo,
-  toggleTodo
 } from '../../store/todoSlice';
-import {useDispatch} from "react-redux";
+import {useTodos} from "../../context/TodoContext.tsx";
 
 type Props = {
   item: Todo;
 };
 
 const TodoItem: React.FC<Props> = ({ item }) => {
-  const [loading, setLoading] = useState<boolean>(false);
-  const dispatch = useDispatch();
+  const { toggle, handleRemove, isLoadingOverlay } = useTodos();
 
-  const handleRemove = () => {
-    setLoading(true);
-    setTimeout(() => {
-      dispatch(removeTodo(item.id));
-    }, 300);
-  };
-
-  const handleToggle = () => {
-    dispatch(toggleTodo(item.id));
-  };
+  const isCompleted = item ? item.completed : false;
 
 
   return (
     <div className={styles['todo__item']}>
       <label
+        htmlFor="todo__item-title"
         className={styles['todo__label']}
-        onClick={handleToggle}
+        onClick={() => toggle(item.id)}
       >
-        {loading ? <FontAwesomeIcon icon={faCheck} /> : ''}
+        {isCompleted ? <FontAwesomeIcon icon={faCheck} /> : ''}
       </label>
 
       <span className={styles['todo__item-title']}>{item.text}</span>
 
       <div
         className={styles['todo__item-delete']}
-        onClick={handleRemove}
+        onClick={() => handleRemove(item.id)}
       >
-        {loading
+        {isLoadingOverlay
           ? <FontAwesomeIcon icon={faSpinner} spin />
           : <FontAwesomeIcon icon={faDeleteLeft} />}
       </div>

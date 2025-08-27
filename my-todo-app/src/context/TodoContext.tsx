@@ -1,7 +1,15 @@
-import React, { createContext, useContext } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState
+} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../store/store";
-import { toggleTodo, type Todo } from "../store/todoSlice";
+import {
+  toggleTodo,
+  type Todo,
+  removeTodo
+} from "../store/todoSlice";
 
 interface TodoContextValue {
   todos: Todo[];
@@ -9,11 +17,14 @@ interface TodoContextValue {
   activeTodos: Todo[];
   getById: (id: number) => Todo | undefined;
   toggle: (id: number) => void;
+  handleRemove: (id: number) => void;
+  isLoadingOverlay: boolean;
 }
 
 const TodoContext = createContext<TodoContextValue | null>(null);
 
 export const TodoProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [isLoadingOverlay, setIsLoadingOverlay] = useState<boolean>(false);
   const dispatch = useDispatch();
   const todos = useSelector((state: RootState) => state.items);
 
@@ -24,13 +35,23 @@ export const TodoProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const toggle = (id: number) => dispatch(toggleTodo(id));
 
+  const handleRemove = (id: number) => {
+    setIsLoadingOverlay(true);
+    setTimeout(() => {
+      dispatch(removeTodo(id));
+    }, 300);
+  };
+
+
   return (
     <TodoContext.Provider value={{
       todos,
       completedTodos,
       activeTodos,
       getById,
-      toggle
+      toggle,
+      handleRemove,
+      isLoadingOverlay
     }}
     >
       {children}
