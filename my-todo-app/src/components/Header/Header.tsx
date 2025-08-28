@@ -6,11 +6,15 @@ import styles from './header.module.scss';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import {useDispatch} from "react-redux";
-import {addTodo} from "../../store/todoSlice.tsx";
+import {
+  addTodo,
+} from "../../store/todoSlice.tsx";
+import {useTodos} from "../../context/TodoContext.tsx";
 
 const Header: React.FC = () => {
   const [query, setQuery] = useState('');
   const dispatch = useDispatch();
+  const { toggleAllTodos, activeTodos } = useTodos();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -25,9 +29,9 @@ const Header: React.FC = () => {
 
   return (
     <header className={styles.todo__header}>
-      <div className={styles.todo__toggle}>
+      <button type="button" className={styles.todo__toggle} onClick={toggleAllTodos} disabled={activeTodos.length === 0}>
         <FontAwesomeIcon icon={faChevronUp} />
-      </div>
+      </button>
       <form action="" onSubmit={handleSubmit}>
         <input
           type="text"

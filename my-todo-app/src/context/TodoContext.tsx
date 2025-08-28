@@ -8,7 +8,8 @@ import type { RootState } from "../store/store";
 import {
   toggleTodo,
   type Todo,
-  removeTodo
+  removeTodo,
+  toggleAll
 } from "../store/todoSlice";
 
 interface TodoContextValue {
@@ -19,6 +20,7 @@ interface TodoContextValue {
   toggle: (id: number) => void;
   handleRemove: (id: number) => void;
   isLoadingOverlay: boolean;
+  toggleAllTodos: () => void;
 }
 
 const TodoContext = createContext<TodoContextValue | null>(null);
@@ -35,10 +37,15 @@ export const TodoProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const toggle = (id: number) => dispatch(toggleTodo(id));
 
+  const toggleAllTodos = () => {
+    dispatch(toggleAll());
+  }
+
   const handleRemove = (id: number) => {
     setIsLoadingOverlay(true);
     setTimeout(() => {
       dispatch(removeTodo(id));
+      setIsLoadingOverlay(false);
     }, 300);
   };
 
@@ -51,7 +58,8 @@ export const TodoProvider: React.FC<{ children: React.ReactNode }> = ({ children
       getById,
       toggle,
       handleRemove,
-      isLoadingOverlay
+      isLoadingOverlay,
+      toggleAllTodos
     }}
     >
       {children}

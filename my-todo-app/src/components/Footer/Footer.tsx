@@ -1,10 +1,13 @@
 import React from 'react'
 import styles from './footer.module.scss';
+import {useTodos} from "../../context/TodoContext.tsx";
 
 const Footer: React.FC = () => {
+  const { activeTodos } = useTodos();
+
   return (
     <footer className={styles.footer}>
-      <span className={styles.footer__count}>{}</span>
+      <span className={styles.footer__count}>{activeTodos.length} items left</span>
 
       <div className={styles.footer__filter}>
         <div className={styles.filter__link}>All</div>
@@ -12,7 +15,13 @@ const Footer: React.FC = () => {
         <div className={styles.filter__link}>Completed</div>
       </div>
 
-      <div className={styles.footer__clear}></div>
+      <button
+        type="button"
+        className={styles.footer__clear}
+        disabled={activeTodos.length === 0}
+      >
+        clear completed
+      </button>
     </footer>
   )
 }

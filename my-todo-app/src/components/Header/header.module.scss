@@ -12,6 +12,19 @@
 .todo__toggle {
   position: relative;
   padding: 0 10px;
+  border: none;
+  outline: none;
+  background: transparent;
+  margin: 0;
+  transition: opacity .3s ease;
+
+  svg {
+    transform: rotate(180deg);
+  }
+
+  &:disabled {
+    opacity: 50%;
+  }
 }
 
 .todo__input {
