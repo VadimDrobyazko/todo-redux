@@ -16,14 +16,17 @@
   outline: none;
   background: transparent;
   margin: 0;
-  transition: opacity .3s ease;
+  transition: opacity .3s ease, transform .3s ease;
+  cursor: pointer;
 
   svg {
     transform: rotate(180deg);
   }
 
-  &:disabled {
+  &.active {
+    pointer-events: auto;
     opacity: 50%;
+    transform: rotate(180deg);
   }
 }
 

@@ -9,8 +9,17 @@ import {
   toggleTodo,
   type Todo,
   removeTodo,
-  toggleAll
+  toggleAll,
+  removeActiveTodo
 } from "../store/todoSlice";
+
+export const FilterType = {
+  All: 'All',
+  Active: 'Active',
+  Completed: 'Completed',
+} as const;
+
+export type FilterType = typeof FilterType[keyof typeof FilterType];
 
 interface TodoContextValue {
   todos: Todo[];
@@ -21,17 +30,34 @@ interface TodoContextValue {
   handleRemove: (id: number) => void;
   isLoadingOverlay: boolean;
   toggleAllTodos: () => void;
+  handleRemoveActiveTodo: () => void;
+  filteredTodos: Todo[];
+  setFilter: (filter: FilterType) => void;
+  filter: FilterType;
 }
 
 const TodoContext = createContext<TodoContextValue | null>(null);
 
 export const TodoProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isLoadingOverlay, setIsLoadingOverlay] = useState<boolean>(false);
+  const [filter, setFilter] = useState<FilterType>(FilterType.All);
   const dispatch = useDispatch();
   const todos = useSelector((state: RootState) => state.items);
 
   const completedTodos: Todo[] = todos.filter((todo: Todo) => todo.completed);
   const activeTodos: Todo[] = todos.filter((todo: Todo) => !todo.completed);
+
+  const filteredTodos: Todo[] = todos.filter(todo => {
+    switch (filter) {
+      case FilterType.Active:
+        return !todo.completed;
+      case FilterType.Completed:
+        return todo.completed;
+      case FilterType.All:
+      default:
+        return true;
+    }
+  })
 
   const getById = (id: number) => todos.find((todo: Todo) => todo.id === id);
 
@@ -49,6 +75,10 @@ export const TodoProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }, 300);
   };
 
+  const handleRemoveActiveTodo = () => {
+    dispatch(removeActiveTodo());
+  }
+
 
   return (
     <TodoContext.Provider value={{
@@ -59,7 +89,11 @@ export const TodoProvider: React.FC<{ children: React.ReactNode }> = ({ children
       toggle,
       handleRemove,
       isLoadingOverlay,
-      toggleAllTodos
+      toggleAllTodos,
+      handleRemoveActiveTodo,
+      filteredTodos,
+      setFilter,
+      filter
     }}
     >
       {children}

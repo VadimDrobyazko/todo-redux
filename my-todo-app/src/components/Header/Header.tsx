@@ -29,7 +29,11 @@ const Header: React.FC = () => {
 
   return (
     <header className={styles.todo__header}>
-      <button type="button" className={styles.todo__toggle} onClick={toggleAllTodos} disabled={activeTodos.length === 0}>
+      <button
+        type="button"
+        className={`${styles.todo__toggle} ${activeTodos.length > 0 ? styles.active : ''}`}
+        onClick={toggleAllTodos}
+      >
         <FontAwesomeIcon icon={faChevronUp} />
       </button>
       <form action="" onSubmit={handleSubmit}>

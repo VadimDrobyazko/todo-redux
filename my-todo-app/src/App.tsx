@@ -6,7 +6,7 @@ import Footer from "./components/Footer/Footer.tsx";
 import {useTodos} from "./context/TodoContext.tsx";
 
 const App: React.FC = () => {
-  const { todos } = useTodos();
+  const { filteredTodos } = useTodos();
 
   return (
     <>
@@ -14,7 +14,7 @@ const App: React.FC = () => {
 
       <div className={styles.todo__app}>
         <Header />
-        <TodoList todos={todos} />
+        <TodoList todos={filteredTodos} />
         <Footer />
       </div>
     </>

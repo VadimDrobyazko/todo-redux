@@ -8,7 +8,7 @@ export interface Todo {
   completed: boolean;
 }
 
-interface TodoState {
+export interface TodoState {
   items: Todo[];
 }
 
@@ -37,12 +37,17 @@ const todoSlice = createSlice({
       state.items = state.items.filter((t) => t.id !== action.payload);
     },
     toggleAll: (state) => {
-      state.items = state.items.map(todo =>
-        todo.completed ? todo : { ...todo, completed: true }
-      );
+      const allCompleted = state.items.every(todo => todo.completed);
+      state.items = state.items.map(todo => ({
+        ...todo,
+        completed: !allCompleted,
+      }));
+    },
+    removeActiveTodo: (state) => {
+      state.items = state.items.filter((todo) => !todo.completed);
     }
   },
 });
 
-export const { addTodo, toggleTodo, removeTodo, toggleAll } = todoSlice.actions;
+export const { addTodo, toggleTodo, removeTodo, toggleAll, removeActiveTodo } = todoSlice.actions;
 export default todoSlice.reducer;
